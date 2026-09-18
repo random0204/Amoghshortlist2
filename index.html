@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amogh's Germany Master's List</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #222222;
+    --border: #2a2a2a;
+    --border2: #333333;
+    --text: #f0ede8;
+    --muted: #888880;
+    --hint: #555550;
+    --green: #4ade80;
+    --green-dim: #1a3a26;
+    --green-text: #86efac;
+    --blue: #60a5fa;
+    --blue-dim: #1a2a3a;
+    --blue-text: #93c5fd;
+    --amber: #fbbf24;
+    --amber-dim: #2a1f0a;
+    --amber-text: #fcd34d;
+    --red: #f87171;
+    --red-dim: #2a1010;
+    --red-text: #fca5a5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 40px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .header {
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid var(--border2);
+  }
+  .header-top {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  .meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .meta span {
+    color: var(--green);
+    font-weight: 500;
+  }
+  .stats {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .stat-val {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .tier-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.3px;
+  }
+  .t1-pill { background: var(--green-dim); color: var(--green-text); border: 0.5px solid #2a5a3a; }
+  .t2-pill { background: var(--blue-dim); color: var(--blue-text); border: 0.5px solid #1a3a5a; }
+  .section-desc {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+    gap: 8px;
+  }
+  .uni-card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+    position: relative;
+  }
+  .uni-card:hover {
+    background: var(--surface2);
+    border-color: var(--border2);
+    transform: translateY(-1px);
+  }
+  .uni-card:active { transform: translateY(0); }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rank {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--hint);
+  }
+  .ext {
+    font-size: 12px;
+    color: var(--hint);
+    transition: color 0.15s;
+  }
+  .uni-card:hover .ext { color: var(--muted); }
+  .uni-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .uni-prog {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2px;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+  .tag-green { background: var(--green-dim); color: var(--green-text); }
+  .tag-blue { background: var(--blue-dim); color: var(--blue-text); }
+  .tag-amber { background: var(--amber-dim); color: var(--amber-text); }
+  .tag-red { background: var(--red-dim); color: var(--red-text); }
+  .divider {
+    height: 0.5px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 0.5px solid var(--border);
+    font-size: 12px;
+    color: var(--hint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .dot-green { background: var(--green); }
+  .dot-blue { background: var(--blue); }
+  .dot-amber { background: var(--amber); }
+  .dot-red { background: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <h1>Germany Master's Shortlist</h1>
+    <span class="subtitle">WINTER 2027 INTAKE</span>
+  </div>
+  <p class="meta">Amogh · SRMIST Kattankulathur · B.Tech CS · <span>GPA 2.2–2.3</span> · <span>IELTS 8.0</span> · 2 Internships</p>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-val" style="color:var(--green)">15</span>
+      <span class="stat-label">Tier 1 programs</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val" style="color:var(--blue)">8</span>
+      <span class="stat-label">Tier 2 programs</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">23</span>
+      <span class="stat-label">Total safe bets</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val" style="color:var(--amber)">€105k</span>
+      <span class="stat-label">Top salary ceiling</span>
+    </div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot dot-green"></div> €65k–€105k ceiling</div>
+  <div class="legend-item"><div class="legend-dot dot-blue"></div> €52k–€94k ceiling</div>
+  <div class="legend-item"><div class="legend-dot dot-amber"></div> Minor condition required</div>
+  <div class="legend-item"><div class="legend-dot dot-red"></div> Hard constraint / last resort</div>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="tier-pill t1-pill">Tier 1 — Just apply, you're in</span>
+    <span class="section-desc">Ranked by salary ceiling · no blockers on your profile</span>
+  </div>
+  <div class="grid">
+
+    <a class="uni-card" href="https://www.uni-passau.de/en/msc-ai-eng" target="_blank">
+      <div class="card-top"><span class="rank">#01</span><span class="ext">↗</span></div>
+      <span class="uni-name">Passau</span>
+      <span class="uni-prog">MSc AI Engineering</span>
+      <div class="tags"><span class="tag tag-green">€65k–€105k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-hildesheim.de" target="_blank">
+      <div class="card-top"><span class="rank">#02</span><span class="ext">↗</span></div>
+      <span class="uni-name">Hildesheim</span>
+      <span class="uni-prog">MSc Data Analytics</span>
+      <div class="tags"><span class="tag tag-green">€60k–€90k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.b-tu.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#03</span><span class="ext">↗</span></div>
+      <span class="uni-name">BTU Cottbus</span>
+      <span class="uni-prog">MSc Artificial Intelligence</span>
+      <div class="tags"><span class="tag tag-green">€65k–€95k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-passau.de/en/msc-computer-science" target="_blank">
+      <div class="card-top"><span class="rank">#04</span><span class="ext">↗</span></div>
+      <span class="uni-name">Passau</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-green">€55k–€94k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.h-brs.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#05</span><span class="ext">↗</span></div>
+      <span class="uni-name">H-BRS Bonn-Rhein-Sieg</span>
+      <span class="uni-prog">MSc Autonomous Systems</span>
+      <div class="tags"><span class="tag tag-green">€60k–€95k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-hildesheim.de" target="_blank">
+      <div class="card-top"><span class="rank">#06</span><span class="ext">↗</span></div>
+      <span class="uni-name">Hildesheim</span>
+      <span class="uni-prog">MSc Software Engineering</span>
+      <div class="tags"><span class="tag tag-green">€55k–€94k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-koblenz.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#07</span><span class="ext">↗</span></div>
+      <span class="uni-name">Koblenz</span>
+      <span class="uni-prog">MSc Web & Data Science</span>
+      <div class="tags"><span class="tag tag-blue">€55k–€80k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.b-tu.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#08</span><span class="ext">↗</span></div>
+      <span class="uni-name">BTU Cottbus</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€55k–€88k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.rptu.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#09</span><span class="ext">↗</span></div>
+      <span class="uni-name">RPTU Kaiserslautern</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€55k–€88k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-bremen.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#10</span><span class="ext">↗</span></div>
+      <span class="uni-name">University of Bremen</span>
+      <span class="uni-prog">MSc AI</span>
+      <div class="tags"><span class="tag tag-blue">€58k–€88k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.tu-clausthal.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#11</span><span class="ext">↗</span></div>
+      <span class="uni-name">TU Clausthal</span>
+      <span class="uni-prog">MSc Data Science</span>
+      <div class="tags"><span class="tag tag-blue">€55k–€82k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.tu-clausthal.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#12</span><span class="ext">↗</span></div>
+      <span class="uni-name">TU Clausthal</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€52k–€85k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-siegen.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#13</span><span class="ext">↗</span></div>
+      <span class="uni-name">University of Siegen</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€52k–€85k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-kassel.de/uni/en" target="_blank">
+      <div class="card-top"><span class="rank">#14</span><span class="ext">↗</span></div>
+      <span class="uni-name">University of Kassel</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€50k–€80k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.hs-schmalkalden.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#15</span><span class="ext">↗</span></div>
+      <span class="uni-name">Schmalkalden</span>
+      <span class="uni-prog">MSc Applied Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€48k–€75k</span></div>
+    </a>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="tier-pill t2-pill">Tier 2 — Low risk, strong profile fit</span>
+    <span class="section-desc">Ranked by salary ceiling · minor conditions noted</span>
+  </div>
+  <div class="grid">
+
+    <a class="uni-card" href="https://www.hhu.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#01</span><span class="ext">↗</span></div>
+      <span class="uni-name">HHU Düsseldorf</span>
+      <span class="uni-prog">MSc AI & Data Science</span>
+      <div class="tags"><span class="tag tag-green">€65k–€100k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.oth-aw.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#02</span><span class="ext">↗</span></div>
+      <span class="uni-name">OTH Amberg-Weiden</span>
+      <span class="uni-prog">MSc AI Industrial Apps</span>
+      <div class="tags"><span class="tag tag-green">€62k–€95k</span><span class="tag tag-amber">aptitude test</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.ovgu.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#03</span><span class="ext">↗</span></div>
+      <span class="uni-name">OVGU Magdeburg</span>
+      <span class="uni-prog">MSc Data & Knowledge Eng.</span>
+      <div class="tags"><span class="tag tag-green">€60k–€90k</span><span class="tag tag-amber">GPA 2.2 only</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.haw-hamburg.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#04</span><span class="ext">↗</span></div>
+      <span class="uni-name">HAW Hamburg</span>
+      <span class="uni-prog">MSc Computer Science</span>
+      <div class="tags"><span class="tag tag-blue">€55k–€88k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.thi.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#05</span><span class="ext">↗</span></div>
+      <span class="uni-name">THI Ingolstadt</span>
+      <span class="uni-prog">MSc AI Engineering</span>
+      <div class="tags"><span class="tag tag-blue">€58k–€90k</span><span class="tag tag-amber">€1,200/sem</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.hs-fulda.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#06</span><span class="ext">↗</span></div>
+      <span class="uni-name">HS Fulda</span>
+      <span class="uni-prog">MSc Global Software Dev.</span>
+      <div class="tags"><span class="tag tag-blue">€52k–€80k</span><span class="tag tag-amber">German A1 + test</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.uni-siegen.de/en" target="_blank">
+      <div class="card-top"><span class="rank">#07</span><span class="ext">↗</span></div>
+      <span class="uni-name">Siegen</span>
+      <span class="uni-prog">MSc Business Informatics</span>
+      <div class="tags"><span class="tag tag-blue">€55k–€90k</span></div>
+    </a>
+
+    <a class="uni-card" href="https://www.tu-chemnitz.de/index.html.en" target="_blank">
+      <div class="card-top"><span class="rank">#08</span><span class="ext">↗</span></div>
+      <span class="uni-name">TU Chemnitz</span>
+      <span class="uni-prog">MSc Web Engineering</span>
+      <div class="tags"><span class="tag tag-blue">€50k–€78k</span><span class="tag tag-amber">German A1</span></div>
+    </a>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>Generated May 2026 · Profile: Amogh, SRMIST B.Tech CS 2027</span>
+  <span>Click any card to open university homepage ↗</span>
+</div>
+
+</body>
+</html>
